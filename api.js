@@ -1,7 +1,7 @@
 const backend_base_url = "http://127.0.0.1:8000"
 const frontend_base_url = "http://127.0.0.1:5500"
 
-
+// 회원가입
 async function handleSignin(){
 
     const signupData = {
@@ -30,9 +30,7 @@ async function handleSignin(){
     }
 }
 
-
-
-
+// 로그인
 async function handleLogin(){
     console.log("handle login")
 
@@ -40,8 +38,6 @@ async function handleLogin(){
         username : document.getElementById("floatingInput").value,
         password : document.getElementById('floatingPassword').value
     }
-
-
     const response = await fetch(`${backend_base_url}/user/api/token/`,{
         headers:{
             Accept:"application/json",
@@ -51,13 +47,8 @@ async function handleLogin(){
         body:JSON.stringify(loginData)
     }
     )
-
-
-
     response_json = await response.json()
-    console.log(response_json.access)
 
-    
     if (response.status ==200){
         localStorage.setItem("access", response_json.access)
         localStorage.setItem("refresh", response_json.refresh)
@@ -70,9 +61,16 @@ async function handleLogin(){
         }).join(''));
 
         localStorage.setItem("payload", jsonPayload);
-        // window.location.replace(`${frontend_base_url}/`);
+        window.location.replace(`${frontend_base_url}/index.html`);
     }else{
         alert(response.status)
     }
+}
 
+// 로그아웃
+function handleLogout() {
+    localStorage.removeItem("access")
+    localStorage.removeItem("refresh")
+    localStorage.removeItem("payload")
+    location.reload()
 }
