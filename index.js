@@ -16,4 +16,18 @@ window.onload = async function checkLogin() {
     }
 }
 
-checkLogin()
+window.onload = async function loadArticles() {
+    articles = await getArticles()
+    const article_list = document.getElementById("articles")
+    
+    articles.forEach(article => {
+        const newArticle = document.createElement('div')
+        const articleImage = document.createElement('img')
+        articleImage.setAttribute("src", `${backend_base_url}${article.image}`)
+        newArticle.setAttribute("id", article._id)
+        newArticle.setAttribute("onclick", "articleDetail(this.id)")
+        newArticle.innerText = article.title
+        newArticle.appendChild(articleImage)
+        article_list.appendChild(newArticle)
+    });
+}

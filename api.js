@@ -74,3 +74,42 @@ function handleLogout() {
     localStorage.removeItem("payload")
     location.reload()
 }
+
+// 게시물 저장
+async function postArticle() {
+    const title = document.getElementById("article_create").value
+    const content = document.getElementById("article_content").value
+    const image = document.getElementById("article_image").files[0]
+
+    let fomedata = new FormData();
+
+    fomedata.append('title', title)
+    fomedata.append('content', content)
+    fomedata.append('image', image)
+
+    const response = await fetch(`${backend_base_url}/article/`, {
+        method:'POST',
+        body: fomedata
+    })
+
+    if (response.status == 200) {
+        alert('저장되었습니다.')
+        window.location.reload(`${frontend_base_url}/`)
+    } else {
+        alert(response.stauts)
+    }
+}
+
+// 게시물 불러오기
+async function getArticles() {
+    const response = await fetch(`${backend_base_url}/article/`, {
+        method:'GET',
+    })
+    response_json = await response.json()
+
+    if (response.status == 200) {
+        return response_json
+    } else {
+        alert(response.stauts)
+    }
+}
